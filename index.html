@@ -1,1 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Proposal | Build-It-Yourself Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav-inner">
+    <div class="brand">
+      <div class="brand-logo"></div>
+      <div>
+        <div class="brand-text-main">Build-It-Yourself Platform</div>
+        <div class="brand-text-sub">Project Proposal</div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="concept.html">Concept</a>
+      <a href="modes.html">Modes</a>
+      <a href="problems.html">Problems</a>
+      <a href="solutions.html">Solutions</a>
+      <a href="business.html">Business</a>
+      <a href="research.html">Research</a>
+      <a href="proposal.html" class="active">Proposal</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container">
+      <div class="page-meta">
+        <span class="badge">📄 Proposal · English Version</span>
+      </div>
+
+      <div class="section-header">
+        <h2>Course Project Proposal｜Visual Material Interaction Platform</h2>
+        <p>
+          This page presents the English version of the project proposal,
+          structured into Situation, Problems, and Solution for teaching and portfolio use.
+        </p>
+      </div>
+
+      <div class="content-block">
+        <h3>1. Situation</h3>
+        <p>
+          This project aims to address the challenges currently faced by homeowners, architectural firms,
+          and material suppliers in the process of building material selection. By developing an integrated
+          material platform, the project seeks to enhance communication efficiency, pricing transparency,
+          and immediacy in design decision-making.
+        </p>
+        <p>
+          At present, homeowners primarily rely on materials provided by architectural firms, which limits
+          their selection options. If they wish to use materials from non-partner suppliers, they must
+          engage in additional negotiations, often resulting in unclear pricing and a lengthy process.
+          Furthermore, homeowners cannot intuitively perceive how selected materials influence the atmosphere
+          of a space until the firm produces a 3D rendering, which leads to repeated revisions and time delays.
+        </p>
+        <p>
+          For architectural firms, clients often struggle to visualize how materials will look in real space,
+          resulting in multiple design adjustments and increased labor and communication costs.
+        </p>
+        <p>
+          For material suppliers, collaboration typically requires visiting each firm individually to promote
+          their products, making it difficult for smaller or lesser-known brands to enter the market.
+        </p>
+        <p>
+          To address these issues, this project proposes the development of a Visual Material Interaction
+          Platform. The platform integrates a comprehensive material database with a simplified design
+          simulation tool. Architectural firms can input floor plans and elevation data to generate a basic
+          spatial model, allowing homeowners to directly experiment with and replace materials within the
+          platform. Users can immediately preview how each material affects the overall atmosphere of the space,
+          which helps reduce last-minute changes, shorten design timelines, and improve decision-making efficiency.
+        </p>
+        <p>
+          In addition, the platform enhances price transparency and provides material suppliers with a unified
+          channel for exposure and collaboration, fostering a more balanced and competitive market. Ultimately,
+          this project aims to create a visualized decision-making ecosystem that integrates the needs of
+          homeowners, architectural firms, and material suppliers, promoting a more efficient, transparent,
+          and interactive process for material selection.
+        </p>
+      </div>
+
+      <div class="content-block" style="margin-top:24px;">
+        <h3>2. Problems</h3>
+        <p>
+          At present, there are various solutions in the market that attempt to address the problem of
+          “enabling consumers to quickly and accurately preview how building materials will appear in real spaces
+          while integrating supplier and pricing information.” However, each of these solutions has limitations
+          and has not fully addressed our target pain points:
+        </p>
+        <p><strong>1. Professional Interior Design Services</strong></p>
+        <p>
+          These services provide customized designs and high-quality renderings, but they are often costly and
+          require a long discussion and confirmation process with professional designers. Furthermore, after the
+          designer produces a rendering, if clients wish to use materials that are not available through the
+          designer’s affiliated firms, either the designer or the client must coordinate with material suppliers,
+          which increases the cost communication and extends the procurement process.
+        </p>
+        <p><strong>2. Traditional 3D Modeling and Rendering Software (AutoCAD, 3ds Max, etc.)</strong></p>
+        <p>
+          These professional tools can produce highly realistic results, but they have steep learning curves and
+          complex operations, making them hard to be familiar with and suitable only for professionals or users
+          with architectural backgrounds. For general homeowners or clients without design experience, these
+          options are less user-friendly and cannot directly address issues related to material procurement.
+        </p>
+        <p><strong>3. Reference Photos or Samples Provided by Developers or Suppliers</strong></p>
+        <p>
+          The photos or samples provided by material suppliers can showcase textures, but their appearances vary
+          significantly under different lighting conditions, photography settings, or scene arrangements. As a
+          result, it is difficult to accurately predict how the materials will appear once installed in the actual
+          space. Additionally, this approach cannot simulate how materials integrate with existing spatial elements,
+          requiring extensive imagination and trial-and-error.
+        </p>
+        <p>
+          Although consumer-oriented platforms such as Houzz and IKEA offer AR or visualization features that
+          provide the “instant preview”, they primarily focus on furniture and soft furnishings. Their applications
+          remain limited when it comes to systemized hard-material selection for interior finishes.
+        </p>
+        <p><strong>4. Generative AI Image Simulation (e.g., DALL·E, Midjourney)</strong></p>
+        <p>
+          Generative AI can rapidly produce conceptual visuals or atmosphere mock-ups. However, the AI-generated
+          images frequently contain layout inconsistencies, material mapping errors, and mismatched details.
+          Moreover, these visuals cannot be directly linked to real-world product specifications, making this
+          method only valuable in offering a rapid visualization, while its feasibility as a practical
+          design-assistance tool remains limited.
+        </p>
+        <p>
+          Based on the above observations, the common shortcomings among existing solutions can be summarized as follows:
+        </p>
+        <ul class="list">
+          <li>(1) They are not user-friendly for general homeowners without architectural or design backgrounds,
+              due to high technical or cost barriers.</li>
+          <li>(2) Most solutions still require clients or designers to independently identify and coordinate with
+              material suppliers, leading to complex and time-consuming workflows.</li>
+          <li>(3) Current options are either expensive and time-intensive, or fast but lacking in precision and
+              supplier information.</li>
+        </ul>
+        <p>
+          These gaps define the core value of our proposed Visual Material Interaction Platform, which integrates
+          a comprehensive material supplier database with real-time visualization and price display. The platform
+          aims to reduce client burden, shorten decision-making time, and directly connect visual outcomes with
+          purchasable material data—effectively bridging the disconnection and inefficiencies that exist within
+          current market solutions.
+        </p>
+      </div>
+
+      <div class="content-block" style="margin-top:24px;">
+        <h3>3. Solution</h3>
+        <p>
+          This project proposes the Visual Material Interaction Platform—an integrated digital ecosystem that
+          combines a comprehensive material database, real-time 3D rendering, and transparent pricing—to bridge
+          architectural firms, homeowners, and material suppliers and enable intuitive, participatory material
+          selection. The platform operates in two complementary modes.
+        </p>
+        <p>
+          In the <strong>Professional Import Mode</strong>, architectural firms upload CAD/BIM models or floor plans,
+          and homeowners log in to explore those models, replacing or adjusting finishes such as flooring and wall
+          treatments while the system instantly updates visual renderings, pricing, and product details. This keeps
+          designers’ workflows intact while making material discussions visual, efficient, and data-driven.
+        </p>
+        <p>
+          In the <strong>Independent Design Mode</strong>, DIY users start from their own floor plans or built-in
+          templates and, through drag-and-drop, paint-like tools, freely combine materials while receiving real-time
+          3D previews and estimated cost breakdowns, thereby democratizing design participation without professional
+          barriers.
+        </p>
+        <p>
+          At the core is a nationwide material repository that consolidates specifications (e.g., texture, dimensions,
+          sustainability indicators), high-fidelity textures and 3D mappings, cross-supplier price information, and
+          user reviews and ratings. By presenting supplier data in a single interface, the platform reduces market
+          fragmentation and elevates the visibility of smaller brands.
+        </p>
+        <p>
+          The real-time 3D engine allows users to preview combinations under adjustable lighting and spatial contexts;
+          every substitution automatically synchronizes with an updated budget, promoting evidence-based decisions and
+          minimizing post-design revisions.
+        </p>
+        <p>
+          The platform further supports transparent, collaborative decision-making: homeowners can see, compare, and
+          decide on their own terms; firms reduce repetitive communication and revision cycles; and suppliers gain
+          immediate exposure to active projects, improving conversion opportunities.
+        </p>
+        <p>
+          Looking ahead, the system will incorporate AI-enhanced features—such as a material recommendation engine tuned
+          to style, budget, and project type; a sustainability scoring framework that integrates environmental impact
+          and durability data; and preference-learning algorithms that personalize suggestions over time—to increase
+          intelligence, sustainability, and user satisfaction.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>© 2025 Build-It-Yourself Demo Website</div>
+    <div>Proposal · English narrative for academic / portfolio use</div>
+  </div>
+</footer>
+</body>
+</html>
 
