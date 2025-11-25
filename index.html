@@ -1,111 +1,539 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head:
+<head>
   <meta charset="UTF-8" />
   <title>自己來設計｜建材自主設計與比價平台</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* --- 1. 全局變數與基礎設定 (Dark Mode Theme) --- */
+    :root {
+      --bg-body: #141619;       /* 最深背景 */
+      --bg-sidebar: #1e2228;    /* 側邊欄/Header背景 */
+      --bg-card: #2c3039;       /* 卡片背景 (圖片中的藍灰色塊) */
+      --bg-card-hover: #363b46;
+      --text-main: #ffffff;
+      --text-sub: #9ca3af;      /* 次要文字淺灰 */
+      --accent: #5e6878;        /* 按鈕/裝飾色 */
+      --accent-blue: #4a90e2;   /* 連結或強調色 */
+      --border-radius: 12px;
+      --spacing: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; transition: 0.3s; }
+    ul { list-style: none; padding: 0; margin: 0; }
+
+    /* --- 2. Header (模擬圖片上方的 Top Bar) --- */
+    .site-header {
+      background-color: var(--bg-body); /* 與背景融合 */
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2c3039;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* 模擬圖片中的 Logo Icon */
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #eab308, #a16207);
+      border-radius: 8px;
+      position: relative;
+    }
+    .brand-logo::after {
+      content: "🏗️";
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 20px;
+    }
+
+    .brand-text-main {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .brand-text-sub {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      font-weight: 400;
+    }
+
+    /* 模擬圖片中間的 Search Bar */
+    .search-bar-fake {
+      background-color: var(--bg-card);
+      padding: 8px 16px;
+      border-radius: 20px;
+      width: 300px;
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      color: var(--text-sub);
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #fff;
+      background-color: var(--bg-card);
+    }
+    
+    .nav-links span.en {
+      font-size: 0.75em;
+      margin-left: 4px;
+      opacity: 0.6;
+    }
+
+    /* --- 3. Main Layout Container --- */
+    main {
+      padding: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* 通用標題樣式 */
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: var(--text-main);
+      border-left: 4px solid #eab308;
+      padding-left: 12px;
+    }
+    .subtitle {
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    /* --- 4. Hero Section (模擬 Dashboard 主畫面) --- */
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr; /* 左文案 右建材庫 */
+      gap: 30px;
+      align-items: stretch;
+    }
+
+    /* 左側文案區塊 -> 模擬主操作區 */
+    .hero-content {
+      background-color: var(--bg-card);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* 加上一點圖片中的背景圖氛圍 */
+    .hero-content::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15; /* 很淡的背景 */
+      z-index: 0;
+    }
+
+    .hero-text-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-kicker {
+      color: #eab308;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      margin: 0 0 20px 0;
+      line-height: 1.2;
+    }
+    
+    .highlight {
+      color: #4a90e2;
+    }
+
+    .hero-subtitle {
+      color: #d1d5db;
+      font-size: 1rem;
+      margin-bottom: 30px;
+      max-width: 90%;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .hero-tag {
+      background: rgba(255,255,255,0.1);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn-primary {
+      background-color: #eab308;
+      color: #1a1d21;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .btn-ghost {
+      background-color: transparent;
+      border: 1px solid #eab308;
+      color: #eab308;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    /* 右側視覺區塊 -> 模擬 "Material Database" 面板 */
+    .hero-visual {
+      background-color: var(--bg-card);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-visual-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 10px;
+    }
+    .hero-visual-title { font-weight: 600; font-size: 0.95rem; }
+    .hero-visual-pill { 
+      font-size: 0.75rem; 
+      background: #374151; 
+      padding: 2px 8px; 
+      border-radius: 4px; 
+      color: #9ca3af;
+    }
+
+    .hero-visual-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 兩欄 */
+      gap: 15px;
+      overflow-y: auto;
+    }
+
+    /* 模擬建材卡片 */
+    .hero-material-card {
+      background-color: #374151;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+    .hero-material-card:hover {
+      transform: translateY(-3px);
+      background-color: #4b5563;
+    }
+
+    .hero-material-swatch {
+      height: 80px;
+      width: 100%;
+    }
+
+    .card-info {
+      padding: 10px;
+    }
+
+    .hero-material-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .hero-material-meta {
+      font-size: 0.7rem;
+      color: #9ca3af;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* --- 5. Grid Sections (Feature Cards) --- */
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .section-card {
+      background-color: var(--bg-card);
+      padding: 25px;
+      border-radius: var(--border-radius);
+      border: 1px solid transparent;
+    }
+    .section-card:hover {
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .section-card-kicker {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .section-card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .section-card p {
+      font-size: 0.9rem;
+      color: #d1d5db;
+      margin-bottom: 15px;
+    }
+
+    .section-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .section-pill {
+      background: rgba(75, 85, 99, 0.5);
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      color: #d1d5db;
+    }
+
+    /* --- 6. 雙欄區塊 (痛點與解方) --- */
+    .section-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .content-block {
+      background-color: var(--bg-card);
+      padding: 30px;
+      border-radius: var(--border-radius);
+    }
+    .content-block h3 {
+      font-size: 1.1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 10px;
+      margin-top: 0;
+    }
+    .list li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+    .list li::before {
+      content: "•";
+      color: #eab308;
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    /* --- Footer --- */
+    .site-footer {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-sub);
+      font-size: 0.8rem;
+      border-top: 1px solid #2c3039;
+      margin-top: 20px;
+    }
+
+    /* RWD Adjustments */
+    @media (max-width: 768px) {
+      .hero-inner, .section-2col {
+        grid-template-columns: 1fr;
+      }
+      .site-header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .search-bar-fake {
+        display: none; /* 手機版隱藏假搜尋列 */
+      }
+    }
+  </style>
 </head>
 <body>
+
 <header class="site-header">
-  <div class="container nav-inner">
-    <div class="brand">
-      <div class="brand-logo"></div>
-      <div>
-        <div class="brand-text-main">Build-It-Yourself Platform</div>
-        <div class="brand-text-sub">Visual Material Interaction & Pricing</div>
-      </div>
+  <div class="brand">
+    <div class="brand-logo"></div>
+    <div>
+      <div class="brand-text-main">BUILD-IT-YOURSELF</div>
+      <div class="brand-text-sub">Material Design & Price Comparison</div>
     </div>
-    <nav class="nav-links">
-      <a href="index.html" class="active">首頁<span class="en">Home</span></a>
-      <a href="concept.html">平台概念<span class="en">Concept</span></a>
-      <a href="modes.html">操作模式<span class="en">Modes</span></a>
-      <a href="problems.html">痛點分析<span class="en">Problems</span></a>
-      <a href="solutions.html">解決方案<span class="en">Solutions</span></a>
-      <a href="business.html">商業模式<span class="en">Business</span></a>
-      <a href="research.html">研究設計<span class="en">Research</span></a>
-      <a href="proposal.html">企劃書<span class="en">Proposal</span></a>
-    </nav>
   </div>
+  
+  <div class="search-bar-fake">
+    🔍 Find your material...
+  </div>
+
+  <nav class="nav-links">
+    <a href="index.html" class="active">首頁</a>
+    <a href="modes.html">操作模式</a>
+    <a href="solutions.html">解決方案</a>
+    <a href="proposal.html">企劃書</a>
+    <div style="display:flex; gap:5px; align-items:center; margin-left:10px;">
+       <div style="width:30px; height:30px; background:#555; border-radius:50%;"></div>
+       <div style="width:30px; height:30px; background:#777; border-radius:50%;"></div>
+    </div>
+  </nav>
 </header>
 
 <main>
-  <!-- Hero 區 -->
   <section class="section hero">
-    <div class="container hero-inner">
-      <div>
-        <div class="hero-kicker">
-          🏗️ 自己來設計 · 建材自主設計與比價平台
-        </div>
-        <h1 class="hero-title">
-          讓屋主與設計師，<span class="highlight">一起在同一個畫面選建材</span>
-        </h1>
-        <p class="hero-subtitle">
-          本平台整合建材資料庫與即時 3D 渲染，服務「願意花錢但想參與」的屋主，
-          以及「願意動手自己配」的 DIY 使用者，讓建材選擇像玩遊戲一樣直覺，
-          又能同時兼顧價格透明與專業流程。
-        </p>
-        <div class="hero-tags">
-          <span class="hero-tag">雙核心客群：業主 × DIY 用戶</span>
-          <span class="hero-tag">雙模式：專業導入 × 自主創作</span>
-          <span class="hero-tag">視覺 × 價格 × 評價 三合一</span>
-        </div>
-        <div class="hero-actions">
-          <a href="concept.html" class="btn-primary">瞭解平台概念 Concept</a>
-          <a href="proposal.html" class="btn-ghost">查看完整企劃書 Proposal</a>
+    <div class="hero-inner">
+      
+      <div class="hero-content">
+        <div class="hero-text-wrapper">
+          <div class="hero-kicker">
+            🏗️ 平台核心概念 Concept
+          </div>
+          <h1 class="hero-title">
+            讓屋主與設計師，<br><span class="highlight">一起在同一個畫面選建材</span>
+          </h1>
+          <p class="hero-subtitle">
+            本平台整合建材資料庫與即時 3D 渲染，服務「願意花錢但想參與」的屋主，
+            以及「願意動手自己配」的 DIY 使用者，讓建材選擇像玩遊戲一樣直覺，
+            同時兼顧價格透明。
+          </p>
+          <div class="hero-tags">
+            <span class="hero-tag">視覺 × 價格 × 評價</span>
+            <span class="hero-tag">即時 3D 預覽</span>
+            <span class="hero-tag">透明報價單</span>
+          </div>
+          <div class="hero-actions">
+            <a href="concept.html" class="btn-primary">開始設計 Start Design</a>
+            <a href="proposal.html" class="btn-ghost">查看企劃 Proposal</a>
+          </div>
         </div>
       </div>
 
-      <!-- 右側示意卡片：像建材選擇面板 -->
       <div class="hero-visual">
         <div class="hero-visual-header">
-          <div class="hero-visual-title">Material Preview Panel</div>
-          <div class="hero-visual-pill">3D · Price · Rating</div>
+          <div class="hero-visual-title">Material Database</div>
+          <div class="hero-visual-pill">In Stock: 85</div>
         </div>
         <div class="hero-visual-grid">
           <div class="hero-material-card">
-            <div class="hero-material-swatch" style="background: linear-gradient(135deg,#4b5563,#9ca3af);"></div>
-            <div class="hero-material-name">霧面石紋地磚</div>
-            <div class="hero-material-meta">NT$1,280 / 坪 · ★ 4.7</div>
+            <div class="hero-material-swatch" style="background: url('https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=500&q=60'); background-size: cover;"></div>
+            <div class="card-info">
+              <div class="hero-material-name">霧面石紋地磚</div>
+              <div class="hero-material-meta"><span>$1,280</span> <span>★ 4.7</span></div>
+            </div>
           </div>
           <div class="hero-material-card">
-            <div class="hero-material-swatch" style="background: linear-gradient(135deg,#78350f,#f59e0b);"></div>
-            <div class="hero-material-name">暖色木紋地板</div>
-            <div class="hero-material-meta">NT$980 / 坪 · ★ 4.5</div>
+            <div class="hero-material-swatch" style="background: url('https://images.unsplash.com/photo-1516455590571-18256e5bb9af?auto=format&fit=crop&w=500&q=60'); background-size: cover;"></div>
+             <div class="card-info">
+              <div class="hero-material-name">暖色木紋地板</div>
+              <div class="hero-material-meta"><span>$980</span> <span>★ 4.5</span></div>
+            </div>
           </div>
           <div class="hero-material-card">
-            <div class="hero-material-swatch" style="background: linear-gradient(135deg,#020617,#111827);"></div>
-            <div class="hero-material-name">深灰水泥塗料</div>
-            <div class="hero-material-meta">NT$720 / 坪 · ★ 4.3</div>
+            <div class="hero-material-swatch" style="background: url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=500&q=60'); background-size: cover;"></div>
+             <div class="card-info">
+              <div class="hero-material-name">深灰水泥塗料</div>
+              <div class="hero-material-meta"><span>$720</span> <span>★ 4.3</span></div>
+             </div>
           </div>
           <div class="hero-material-card">
-            <div class="hero-material-swatch" style="background: linear-gradient(135deg,#0f766e,#22c55e);"></div>
-            <div class="hero-material-name">環保石材系列</div>
-            <div class="hero-material-meta">永續指標 A 級</div>
+            <div class="hero-material-swatch" style="background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=500&q=60'); background-size: cover;"></div>
+             <div class="card-info">
+              <div class="hero-material-name">環保石材系列</div>
+              <div class="hero-material-meta"><span>$2,100</span> <span>★ 4.9</span></div>
+             </div>
           </div>
           <div class="hero-material-card">
-            <div class="hero-material-swatch" style="background: linear-gradient(135deg,#1d4ed8,#38bdf8);"></div>
-            <div class="hero-material-name">防潮浴室磁磚</div>
-            <div class="hero-material-meta">NT$1,520 / 坪 · 防滑</div>
+            <div class="hero-material-swatch" style="background: url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=500&q=60'); background-size: cover;"></div>
+             <div class="card-info">
+              <div class="hero-material-name">防潮浴室磁磚</div>
+              <div class="hero-material-meta"><span>$1,520</span> <span>防滑 A+</span></div>
+             </div>
           </div>
           <div class="hero-material-card">
-            <div class="hero-material-swatch" style="background: linear-gradient(135deg,#6b21a8,#a855f7);"></div>
-            <div class="hero-material-name">重點牆面特殊漆</div>
-            <div class="hero-material-meta">客製色票 · 小面積試做</div>
+            <div class="hero-material-swatch" style="background: url('https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=500&q=60'); background-size: cover;"></div>
+             <div class="card-info">
+              <div class="hero-material-name">特殊漆料</div>
+              <div class="hero-material-meta"><span>客製化</span> <span>熱門</span></div>
+             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 三大重點：平台核心、雙客群、雙模式 -->
   <section class="section">
-    <div class="container">
       <div class="section-header">
         <h2>平台核心設計 · 核心對象 · 操作模式</h2>
         <p class="subtitle">
-          摘要你的企劃書內容，將「平台核心概念 × 主要客群 × 操作流程」濃縮成首頁三大模組，
-          方便課堂簡報與作品集瀏覽。
+          摘要你的企劃書內容，將「平台核心概念 × 主要客群 × 操作流程」濃縮成首頁三大模組。
         </p>
       </div>
       <div class="section-grid">
@@ -114,8 +542,7 @@
           <div class="section-card-title">平台核心概念</div>
           <p>
             「讓每個人都能親手打造理想空間」——整合建材資料庫與即時 3D 渲染工具，
-            讓專業事務所與一般使用者，都可以透過簡單直覺的介面，自由選材、即時預覽與比價。
-            過程就像在小畫家裡「倒顏料」一樣輕鬆。
+            讓專業事務所與一般使用者，都可以透過簡單直覺的介面，自由選材。
           </p>
           <div class="section-pill-row">
             <span class="section-pill">建材資料庫</span>
@@ -127,153 +554,64 @@
           <div class="section-card-kicker">Target Users</div>
           <div class="section-card-title">雙核心客群</div>
           <p>
-            1️⃣ 自主參與型屋主：願意付費請事務所，但想自己挑建材、看效果、比較價格。<br>
-            2️⃣ 自行完成型使用者：想自己完成空間設計，只處理裝潢與材質，不碰結構，願意花時間學習與操作。
+            1️⃣ 自主參與型屋主：願意付費但想自己挑建材。<br>
+            2️⃣ DIY 使用者：想自己完成空間設計，不碰結構，願意花時間學習。
           </p>
           <div class="section-pill-row">
             <span class="section-pill">細節控業主</span>
-            <span class="section-pill">DIY 設計愛好者</span>
-            <span class="section-pill">事務所端協作</span>
+            <span class="section-pill">DIY 愛好者</span>
           </div>
         </div>
         <div class="section-card">
           <div class="section-card-kicker">Interaction Modes</div>
           <div class="section-card-title">雙模式操作流程</div>
           <p>
-            🧱 專業導入模式：事務所匯入 CAD/BIM 模型，業主登入後在既有模型上自由換材。<br>
-            🎨 自主創作模式：DIY 用戶上傳平面圖或用模板，拖拉建材、即時看 3D 效果與預算。
+            🧱 專業導入模式：事務所匯入 BIM 模型，業主自由換材。<br>
+            🎨 自主創作模式：拖拉建材、即時看 3D 效果與預算。
           </p>
           <div class="section-pill-row">
-            <span class="section-pill">專業導入模式</span>
-            <span class="section-pill">自主創作模式</span>
+            <span class="section-pill">BIM 導入</span>
             <span class="section-pill">像玩遊戲一樣</span>
           </div>
         </div>
       </div>
-    </div>
   </section>
 
-  <!-- 痛點 × 解決方案（二欄） -->
   <section class="section">
-    <div class="container">
       <div class="section-header">
         <h2>從現行痛點，到收斂出的單點解決方案</h2>
-        <p class="subtitle">
-          將你企劃書中的「現況痛點」、「既有方案缺口」、「收斂的問題點」整理成一目了然的架構，
-          方便教授或評審快速掌握專案切入點。
-        </p>
       </div>
 
       <div class="section-2col">
         <div class="content-block">
-          <h3>現行痛點與缺口 <span class="en">Pain Points & Gaps</span></h3>
-          <p>
-            綜合專業設計服務、傳統 3D 軟體、樣品照片與生成式 AI 等既有工具，可以看到：
-          </p>
+          <h3>現行痛點與缺口 <span style="font-size:0.8em; color:var(--text-sub)">Pain Points & Gaps</span></h3>
+          <p style="color:var(--text-sub)">綜合專業設計服務、傳統 3D 軟體、樣品照片與生成式 AI 等既有工具：</p>
           <ul class="list">
             <li>一般屋主操作門檻高，價格與建材資訊不透明。</li>
             <li>事務所與建材商之間需頻繁人工溝通，比價流程冗長。</li>
             <li>視覺效果與實際成品落差大，導致反覆修改與延誤。</li>
             <li>缺乏整合「視覺預覽 × 供應商資料 × 價格」的單一平台。</li>
           </ul>
-          <p>
-            你的 Move 2（Problem）與企劃書中「現行流程痛點」即是本區的內容來源。
-          </p>
         </div>
 
         <div class="content-block">
-          <h3>收斂後的主打解方 <span class="en">Focused Solution</span></h3>
-          <p>
-            你在企劃中提出幾個關鍵收斂方向：
-          </p>
+          <h3>收斂後的主打解方 <span style="font-size:0.8em; color:var(--text-sub)">Focused Solution</span></h3>
           <ul class="list">
             <li>平台新增「樣品展示」與真實案例，讓客戶有具體參考。</li>
-            <li>與僅生成圖像的工具（如 Nano Banana / Gemini 影像模型）做出差異化：
-              不只看圖，而是直接連結真實建材、價格與供應商。</li>
+            <li>與僅生成圖像的工具（如 Midjourney）做出差異化：直接連結真實建材、價格與供應商。</li>
             <li>強調「無法被單純 AI 圖像取代」的機能：真實資料庫＋價格＋庫存。</li>
-            <li>從「滿天星斗」的問題，收斂到「單點超清楚的痛點」：<br>
-              👉 建材選擇流程太碎片化、資訊不透明、難以直覺參與。</li>
+            <li>從「滿天星斗」的問題，收斂到「建材選擇不直覺」的單點突破。</li>
           </ul>
-          <p>
-            這些內容可在 Solutions 與 Business 頁面進一步展開。
-          </p>
         </div>
       </div>
-    </div>
   </section>
 
-  <!-- 商業模式 & 研究定位 -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2>商業模式與研究設計定位</h2>
-        <p class="subtitle">
-          同時面向「產品企劃」與「學術研究」的雙用途網站，
-          將商業模式、研究 Move 1–4、以及問卷設計拆成可點選的分頁。
-        </p>
-      </div>
-
-      <div class="section-grid">
-        <div class="section-card">
-          <div class="section-card-kicker">Business Model</div>
-          <div class="section-card-title">潛在商業模式</div>
-          <p>
-            企劃中提到的商業模式，例如：
-          </p>
-          <ul class="list">
-            <li>建材商上架費與成交抽成。</li>
-            <li>事務所專業版訂閱制（進階渲染、AI 推薦）。</li>
-            <li>平台廣告與建材曝光服務。</li>
-            <li>B2B 市場數據分析與趨勢報告。</li>
-          </ul>
-          <p>
-            詳細內容可在 <strong>business.html</strong> 中分區呈現。
-          </p>
-        </div>
-
-        <div class="section-card">
-          <div class="section-card-kicker">Research Design</div>
-          <div class="section-card-title">研究設計與 Move 架構</div>
-          <p>
-            你已整理好的 Move 1–4：
-          </p>
-          <ul class="list">
-            <li>Move 1 Situation：建材選擇流程低效與不透明。</li>
-            <li>Move 2 Problem：缺乏兼顧專業與 DIY 的互動平台。</li>
-            <li>Move 3 Solution：雙模式視覺互動平台。</li>
-            <li>Move 4 Evaluation：透明度、效率與 AI 擴充潛力。</li>
-          </ul>
-          <p>
-            建議放在 <strong>research.html</strong>，搭配中英對照表格。
-          </p>
-        </div>
-
-        <div class="section-card">
-          <div class="section-card-kicker">Survey & User Study</div>
-          <div class="section-card-title">市場需求問卷與訪談</div>
-          <p>
-            你企劃附錄中的問卷題目，可以整理成：
-          </p>
-          <ul class="list">
-            <li>基本資料與身分分類。</li>
-            <li>痛點與需求（價格、溝通、視覺化等）。</li>
-            <li>功能偏好與付費意願。</li>
-            <li>開放式回饋與後續訪談意願。</li>
-          </ul>
-          <p>
-            未來可另外新增 <strong>survey.html</strong> 做線上版展示。
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer class="site-footer">
-  <div class="container footer-inner">
-    <div>© 2025 自己來設計 · Build-It-Yourself Demo Website</div>
-    <div>Multi-page demo site for course project & research portfolio</div>
-  </div>
+  <div>© 2025 自己來設計 · Build-It-Yourself Demo Website</div>
+  <div style="margin-top:5px; opacity:0.6;">Multi-page demo site for course project & research portfolio</div>
 </footer>
+
 </body>
 </html>
