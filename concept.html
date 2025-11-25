@@ -1,1 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>平台核心概念｜自己來設計</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg-body: #ede8e3;
+      --bg-card: #f5f0eb;
+      --bg-card-hover: #ede8e3;
+      --text-main: #4a453f;
+      --text-sub: #8b8680;
+      --accent: #a89a8f;
+      --accent-primary: #9d8b7e;
+      --accent-blue: #7b9d9e;
+      --accent-terracotta: #b8926f;
+      --border-radius: 16px;
+    }
 
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif;
+      background: linear-gradient(135deg, #ede8e3 0%, #e8dfd8 100%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      line-height: 1.7;
+    }
+    a { text-decoration: none; color: inherit; transition: 0.3s ease; }
+    ul, ol { list-style: none; padding: 0; margin: 0; }
+
+    .site-header {
+      background: linear-gradient(180deg, rgba(244, 240, 235, 0.95) 0%, rgba(237, 232, 227, 0.9) 100%);
+      backdrop-filter: blur(10px);
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(157, 139, 126, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #b8926f 0%, #9d8b7e 100%);
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(184, 146, 111, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .brand-text-main {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .brand-text-sub {
+      font-size: 0.7rem;
+      color: var(--text-sub);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      color: var(--text-sub);
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--text-main);
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+
+    main {
+      padding: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin: 0 0 20px 0;
+      color: var(--text-main);
+      border-left: 5px solid var(--accent-terracotta);
+      padding-left: 16px;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      color: var(--text-main);
+      font-weight: 700;
+      border-left: 5px solid var(--accent-terracotta);
+      padding-left: 16px;
+    }
+
+    .intro-text {
+      font-size: 1.1rem;
+      color: var(--text-sub);
+      margin-bottom: 40px;
+      line-height: 1.9;
+      max-width: 800px;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin-bottom: 50px;
+    }
+
+    .concept-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(245, 240, 235, 0.8) 100%);
+      padding: 36px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+    }
+
+    .concept-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+      border-color: rgba(184, 146, 111, 0.3);
+    }
+
+    .concept-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+
+    .concept-card h3 {
+      font-size: 1.3rem;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    .concept-card p {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(123, 157, 158, 0.1), rgba(123, 157, 158, 0.05));
+      border-left: 4px solid var(--accent-blue);
+      padding: 24px;
+      border-radius: 12px;
+      margin: 32px 0;
+    }
+
+    .highlight-box h3 {
+      color: var(--accent-blue);
+      margin-top: 0;
+      font-weight: 700;
+    }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin: 40px 0;
+    }
+
+    .feature-item {
+      background: rgba(255, 255, 255, 0.4);
+      padding: 24px;
+      border-radius: 12px;
+      border-left: 4px solid var(--accent-terracotta);
+    }
+
+    .feature-item h4 {
+      color: var(--text-main);
+      margin: 0 0 12px 0;
+      font-size: 1.1rem;
+    }
+
+    .feature-item p {
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    .cta-section {
+      background: linear-gradient(135deg, rgba(184, 146, 111, 0.1), rgba(123, 157, 158, 0.1));
+      padding: 48px;
+      border-radius: 16px;
+      text-align: center;
+      border: 1px solid rgba(184, 146, 111, 0.2);
+    }
+
+    .cta-section h2 {
+      border: none;
+      padding: 0;
+      color: var(--text-main);
+      margin-bottom: 20px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #b8926f 0%, #a89a8f 100%);
+      color: #ffffff;
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(184, 146, 111, 0.3);
+      border: none;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      margin: 10px 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(184, 146, 111, 0.4);
+    }
+
+    .site-footer {
+      text-align: center;
+      padding: 48px 40px;
+      color: var(--text-sub);
+      font-size: 0.85rem;
+      border-top: 2px solid rgba(157, 139, 126, 0.2);
+      background: linear-gradient(180deg, transparent, rgba(157, 139, 126, 0.05));
+    }
+
+    @media (max-width: 768px) {
+      .site-header {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 20px;
+      }
+      main {
+        padding: 24px;
+        gap: 36px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <div class="brand-logo">🏗️</div>
+    <div>
+      <div class="brand-text-main">BUILD-IT-YOURSELF</div>
+      <div class="brand-text-sub">Material Design & Price Comparison</div>
+    </div>
+  </div>
+
+  <nav class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="modes.html">操作模式</a>
+    <a href="solutions.html">解決方案</a>
+    <a href="concept.html" class="active">概念設計</a>
+    <a href="proposal.html">企劃書</a>
+  </nav>
+</header>
+
+<main>
+  <section>
+    <h1>平台核心概念</h1>
+    <p class="intro-text">
+      我們的使命是讓每個人都能親手打造理想空間。透過整合建材資料庫與即時3D渲染技術，
+      無論是專業設計師還是DIY愛好者，都能輕鬆參與建材選擇，享受設計的樂趣。
+    </p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="concept-icon">🎨</div>
+        <h3>視覺化決策</h3>
+        <p>即時3D預覽建材效果，讓你在數秒內看到不同組合方案，直覺地做出最佳選擇。</p>
+      </div>
+
+      <div class="concept-card">
+        <div class="concept-icon">💰</div>
+        <h3>價格透明化</h3>
+        <p>多品牌建材價格一目瞭然，支援即時比價，讓預算不再是設計的限制。</p>
+      </div>
+
+      <div class="concept-card">
+        <div class="concept-icon">⭐</div>
+        <h3>用戶評價</h3>
+        <p>真實用戶的評分與回饋，幫助你選擇品質穩定、口碑良好的建材產品。</p>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <h3>核心設計理念</h3>
+      <p>
+        「讓建材選擇像玩遊戲一樣直覺」——無需專業知識，只需動動滑鼠，
+        就能體驗不同的空間風格組合。我們相信，設計參與應該是民主化、易上手、且充滿樂趣的。
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>我們解決的問題</h2>
+    <div class="feature-list">
+      <div class="feature-item">
+        <h4>❌ 效果落差大</h4>
+        <p>樣品照片與實際安裝效果常有巨大落差，導致反覆修改與延誤</p>
+      </div>
+      <div class="feature-item">
+        <h4>❌ 比價繁瑣</h4>
+        <p>建材來源散亂，價格資訊零散，需逐一詢價耗時費力</p>
+      </div>
+      <div class="feature-item">
+        <h4>❌ 缺乏參與感</h4>
+        <p>屋主只能被動接受設計，難以親身參與建材選擇過程</p>
+      </div>
+      <div class="feature-item">
+        <h4>❌ 溝通成本高</h4>
+        <p>每次修改都需要等待設計師重新渲染，效率低下</p>
+      </div>
+      <div class="feature-item">
+        <h4>❌ 市場資訊不對稱</h4>
+        <p>小品牌難以進入，消費者選擇受限</p>
+      </div>
+      <div class="feature-item">
+        <h4>❌ 專業門檻高</h4>
+        <p>傳統設計軟體學習曲線陡峭，一般人無法使用</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>我們的解決方案</h2>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="concept-icon">🧱</div>
+        <h3>完整建材資料庫</h3>
+        <p>整合全台建材商品資訊，包含規格、高擬真3D貼圖、即時價格與用戶評價。</p>
+      </div>
+
+      <div class="concept-card">
+        <div class="concept-icon">⚡</div>
+        <h3>即時3D渲染</h3>
+        <p>毫秒級更新，讓你邊選邊看，即時掌握空間氛圍變化與預算調整。</p>
+      </div>
+
+      <div class="concept-card">
+        <div class="concept-icon">👥</div>
+        <h3>三方共贏</h3>
+        <p>屋主參與度提升，設計師效率提高，建材商獲得平等曝光機會。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>準備好開始設計了嗎？</h2>
+    <p>體驗直覺、高效、充滿樂趣的建材選擇過程</p>
+    <a href="modes.html" class="btn-primary">了解操作模式</a>
+    <a href="solutions.html" class="btn-primary" style="background: transparent; border: 2px solid var(--accent-primary); color: var(--accent-primary);">查看完整方案</a>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div>© 2025 自己來設計 · Build-It-Yourself</div>
+  <div style="margin-top: 8px; opacity: 0.6;">讓每個人都能親手打造理想空間</div>
+</footer>
+
+</body>
+</html>
