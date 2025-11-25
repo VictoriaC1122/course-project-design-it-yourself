@@ -1,1 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>提案 Proposal | Build-It-Yourself Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav-inner">
+    <div class="brand">
+      <div class="brand-logo"></div>
+      <div>
+        <div class="brand-text-main">Build-It-Yourself Platform</div>
+        <div class="brand-text-sub">Material Design & Price Comparison</div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">首頁<span class="en">Home</span></a>
+      <a href="concept.html">概念<span class="en">Concept</span></a>
+      <a href="modes.html">互動模式<span class="en">Modes</span></a>
+      <a href="problems.html">問題分析<span class="en">Problems</span></a>
+      <a href="solutions.html">解決方案<span class="en">Solutions</span></a>
+      <a href="business.html">商業模式<span class="en">Business</span></a>
+      <a href="research.html">研究設計<span class="en">Research</span></a>
+      <a href="proposal.html" class="active">提案<span class="en">Proposal</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container">
+      <div class="page-meta">
+        <span class="badge">📄 Proposal · Chinese Version</span>
+      </div>
+
+      <div class="section-header">
+        <h2>課程專題提案｜建材視覺互動平台</h2>
+        <p class="subtitle">
+          本頁以「情境（Situation）－問題（Problems）－解方（Solution）」架構，整理本專題之中文提案內容，
+          供教學展示與個人作品集使用。
+        </p>
+      </div>
+
+      <!-- 1. Situation -->
+      <div class="content-block">
+        <h3>1. 情境說明 <span class="en">Situation</span></h3>
+        <p>
+          本專案聚焦於目前居家屋主、建築／室內設計事務所與建材供應商，在「建材選擇與溝通」過程中遇到的各種斷點。
+          我們希望透過建置一個整合式建材平台，提升溝通效率、價格透明度與設計決策的即時性。
+        </p>
+        <p>
+          對一般屋主而言，目前多半只能依賴設計事務所所合作的建材商，選擇範圍有限。
+          若希望使用非合作廠商的建材，往往需要額外洽談與比價，價格資訊不透明，流程冗長。
+          此外，屋主難以在工程前直觀感受建材對空間氛圍的影響，只能等設計師出 3D 示意圖後再調整，
+          造成多次來回修改與時間延宕。
+        </p>
+        <p>
+          對設計事務所而言，客戶難以想像實際空間效果，導致設計確認過程中需不斷調整材質、配色與配置，
+          增加了反覆溝通與人力成本。
+        </p>
+        <p>
+          對建材供應商而言，要被設計端「看見」，往往必須一家一家事務所拜訪推廣，
+          中小型或新品牌很難取得曝光機會與專案合作，市場較為破碎。
+        </p>
+        <p>
+          因此，本專案提出「建材視覺互動平台」（Visual Material Interaction Platform）的概念：
+          平台整合完整建材資料庫與精簡版設計模擬工具，讓設計端可匯入平面圖／立面圖生成空間模型，
+          屋主則可在平台上直接替換、嘗試不同建材組合。
+          使用者可以即時預覽各種建材方案對整體空間氛圍的影響，降低臨時變更的機率，
+          縮短設計確認時程，並提升決策效率。
+        </p>
+        <p>
+          同時，平台透過價格與規格的集中呈現，讓建材價格更加透明，
+          也為供應商提供統一的曝光與比價通路，緩解目前資訊分散與議價不對稱的問題。
+          最終，我們希望打造一個整合屋主、設計事務所與建材供應商需求的「視覺化決策生態系」，
+          讓建材選配過程更加高效、透明且具互動性。
+        </p>
+      </div>
+
+      <!-- 2. Problems -->
+      <div class="content-block">
+        <h3>2. 既有方案與痛點 <span class="en">Problems</span></h3>
+        <p>
+          市面上已存在多種工具與服務，試圖解決「讓消費者快速、準確預覽建材於真實空間中的效果，
+          並整合供應商與價格資訊」這個問題，但多數方案仍有明顯侷限，尚未完整處理我們鎖定的痛點。
+        </p>
+        <p><strong>（1）專業室內設計服務</strong></p>
+        <p>
+          專業設計服務可以提供客製化規劃與高品質渲染圖，但費用高、溝通週期長，
+          需要不斷與設計師來回討論。
+          當客戶希望採用設計師合作廠商以外的建材時，往往又需額外由設計師或客戶自行與供應商協調，
+          增加溝通成本與採購時間。
+        </p>
+        <p><strong>（2）傳統 3D 建模與渲染軟體（如 AutoCAD、3ds Max）</strong></p>
+        <p>
+          這類專業工具可以產生高度寫實的空間效果，但學習門檻高、操作複雜，
+          通常只適合專業設計師或具建築背景的使用者。
+          對一般屋主或非專業客戶而言，不僅難以上手，也無法直接連結真實建材與採購流程。
+        </p>
+        <p><strong>（3）建商／供應商提供的參考照片與樣本</strong></p>
+        <p>
+          供應商提供的樣本與照片可呈現材質質感，但受拍攝環境、光線與陳列方式影響很大，
+          難以真實反映實際施工後的效果。
+          此外，單一樣本無法模擬和既有空間元素的整體搭配，需要高度想像力與試錯。
+        </p>
+        <p>
+          雖然像 Houzz、IKEA 等平台已提供部分 AR 或視覺化功能，
+          但多偏重於家具與軟裝物件，對於室內「硬裝建材系統化選配」的支援仍然有限。
+        </p>
+        <p><strong>（4）生成式 AI 圖像模擬（例如 DALL·E、Midjourney）</strong></p>
+        <p>
+          生成式 AI 能快速產出概念圖與氛圍草圖，但常出現平面配置不合理、
+          材質貼圖錯誤或細節失真等問題，也無法直接對應到實際可購買的建材型號與規格。
+          因此目前比較適合作為靈感參考，而不是可直接用於施工決策的工具。
+        </p>
+        <p>
+          綜合上述觀察，我們歸納目前解決方案的共通缺點如下：
+        </p>
+        <ul class="list">
+          <li>（1）對沒有建築／設計背景的一般屋主並不友善，技術或費用門檻偏高。</li>
+          <li>（2）多數方案仍需客戶或設計師自行尋找建材供應商並分開溝通，流程繁瑣且易資訊斷裂。</li>
+          <li>（3）現有工具不是昂貴且耗時，就是快速但缺乏精準度與供應商／價格資訊。</li>
+        </ul>
+        <p>
+          這些缺口，正是本專案欲切入的核心價值：透過「建材視覺互動平台」整合建材供應商資料庫、
+          即時視覺化與價格資訊，降低溝通負擔、縮短決策時間，並直接把「看得到的效果」連結到
+          「買得到的建材」。
+        </p>
+      </div>
+
+      <!-- 3. Solution -->
+      <div class="content-block">
+        <h3>3. 解決方案設計 <span class="en">Solution</span></h3>
+        <p>
+          本專案提出的「建材視覺互動平台」，是一個結合建材資料庫、即時 3D 畫面與價格透明度的
+          數位生態系，目標是讓設計端、屋主與建材供應商能在同一個平台上完成溝通與選配。
+          平台主要包含兩種互補的使用模式。
+        </p>
+        <p>
+          在<strong>「專業匯入模式」（Professional Import Mode）</strong>中，
+          設計事務所可以匯入 CAD／BIM 模型或平面圖，產生簡化空間模型；
+          屋主登入後，便可以在同一個模型中更換地板、牆面等建材，
+          系統會即時更新畫面、估價與建材資訊。
+          這個模式維持設計師原本的工作流程，同時讓與客戶的材質討論更具體、
+          更視覺化，也更容易量化成本。
+        </p>
+        <p>
+          在<strong>「獨立設計模式」（Independent Design Mode）</strong>中，
+          一般 DIY 使用者可以從平台提供的平面範本或上傳自家格局圖開始，
+          透過拖拉（drag-and-drop）與「像在塗色」般的操作，嘗試不同建材組合，
+          並即時看到 3D 預覽與預估費用拆解，降低非專業使用者的操作門檻，
+          讓更多人能主動參與設計決策。
+        </p>
+        <p>
+          平台核心是一套全國性建材資料庫，整合各家供應商的規格資訊
+          （如材質、尺寸、耐磨／耐水等指標）、高解析貼圖與 3D 貼圖設定、
+          跨供應商的價格區間，以及使用者評價與星等等資料。
+          透過單一介面呈現多家供應商內容，一方面降低市場資訊破碎程度，
+          另一方面也提高中小型品牌被看見與被選用的機會。
+        </p>
+        <p>
+          即時 3D 引擎讓使用者可以在不同光源與情境下，預覽各種建材組合；
+          每次替換建材時，系統會同步更新預估預算與明細，協助使用者做出
+          更有依據的決策，也減少施工前後反悔與變更。
+        </p>
+        <p>
+          此外，平台也強化「協作」與「透明溝通」：
+          屋主可以在同一個畫面中比較多組方案並留下註解；
+          設計端可減少重複性的說明與修改回合；
+          供應商則可以直接接觸到有明確需求的專案，提高轉換率。
+        </p>
+        <p>
+          未來，我們也規劃導入 AI 強化功能，例如：
+          依照風格偏好、預算區間與專案類型自動推薦建材組合的
+          <strong>「智能推薦引擎」</strong>；
+          整合環境足跡與耐用度資訊的 <strong>「永續評分系統」</strong>；
+          以及根據使用者歷史選擇自動學習偏好的
+          <strong>「個人化偏好模型」</strong>。
+          透過這些設計，我們希望讓平台在智慧化、永續性與使用者滿意度三個面向都有持續成長的空間。
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>© 2025 Build-It-Yourself Demo Website</div>
+    <div>Proposal · Chinese narrative for academic / portfolio use</div>
+  </div>
+</footer>
+</body>
+</html>
 
