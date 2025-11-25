@@ -1,1 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>操作模式｜自己來設計</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg-body: #ede8e3;
+      --bg-card: #f5f0eb;
+      --text-main: #4a453f;
+      --text-sub: #8b8680;
+      --accent-terracotta: #b8926f;
+      --accent-blue: #7b9d9e;
+      --accent-primary: #9d8b7e;
+    }
 
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif;
+      background: linear-gradient(135deg, #ede8e3 0%, #e8dfd8 100%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      line-height: 1.7;
+    }
+    a { text-decoration: none; color: inherit; transition: 0.3s ease; }
+
+    .site-header {
+      background: linear-gradient(180deg, rgba(244, 240, 235, 0.95) 0%, rgba(237, 232, 227, 0.9) 100%);
+      backdrop-filter: blur(10px);
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(157, 139, 126, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #b8926f 0%, #9d8b7e 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 12px rgba(184, 146, 111, 0.2);
+    }
+
+    .brand-text-main {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .brand-text-sub {
+      font-size: 0.7rem;
+      color: var(--text-sub);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      color: var(--text-sub);
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a.active {
+      color: var(--text-main);
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+
+    main {
+      padding: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin: 0 0 20px 0;
+      color: var(--text-main);
+      border-left: 5px solid var(--accent-terracotta);
+      padding-left: 16px;
+    }
+
+    .intro {
+      font-size: 1.1rem;
+      color: var(--text-sub);
+      margin-bottom: 50px;
+      max-width: 800px;
+    }
+
+    .modes-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 32px;
+      margin-bottom: 60px;
+    }
+
+    .mode-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(245, 240, 235, 0.8) 100%);
+      border-radius: 16px;
+      padding: 40px 36px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mode-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-terracotta));
+    }
+
+    .mode-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      border-color: rgba(184, 146, 111, 0.3);
+    }
+
+    .mode-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+
+    .mode-card h2 {
+      font-size: 1.5rem;
+      color: var(--text-main);
+      margin: 0 0 12px 0;
+      font-weight: 700;
+    }
+
+    .mode-subtitle {
+      color: var(--accent-terracotta);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .mode-desc {
+      color: var(--text-sub);
+      margin-bottom: 28px;
+      line-height: 1.8;
+      font-size: 0.95rem;
+    }
+
+    .mode-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 28px;
+    }
+
+    .mode-list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 12px;
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .mode-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent-terracotta);
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    .mode-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #b8926f 0%, #a89a8f 100%);
+      color: white;
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(184, 146, 111, 0.25);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      font-size: 0.95rem;
+    }
+
+    .mode-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(184, 146, 111, 0.35);
+    }
+
+    .comparison-section {
+      margin-top: 60px;
+    }
+
+    .comparison-section h2 {
+      font-size: 1.8rem;
+      color: var(--text-main);
+      margin-bottom: 32px;
+      border-left: 5px solid var(--accent-terracotta);
+      padding-left: 16px;
+    }
+
+    .comparison-table {
+      background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(245, 240, 235, 0.8) 100%);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .comparison-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .comparison-table th {
+      background: rgba(184, 146, 111, 0.1);
+      padding: 20px 24px;
+      text-align: left;
+      color: var(--text-main);
+      font-weight: 700;
+      border-bottom: 2px solid rgba(184, 146, 111, 0.2);
+      font-size: 0.95rem;
+    }
+
+    .comparison-table td {
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(157, 139, 126, 0.15);
+      color: var(--text-sub);
+      font-size: 0.9rem;
+    }
+
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .comparison-table tr:hover {
+      background: rgba(184, 146, 111, 0.05);
+    }
+
+    .feature-tag {
+      display: inline-block;
+      background: rgba(184, 146, 111, 0.2);
+      color: var(--accent-primary);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .workflow-section {
+      margin-top: 60px;
+    }
+
+    .workflow-section h2 {
+      font-size: 1.8rem;
+      color: var(--text-main);
+      margin-bottom: 32px;
+      border-left: 5px solid var(--accent-terracotta);
+      padding-left: 16px;
+    }
+
+    .workflow-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .step {
+      background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(245, 240, 235, 0.8) 100%);
+      padding: 28px;
+      border-radius: 12px;
+      border-left: 4px solid var(--accent-blue);
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .step-number {
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #b8926f 0%, #a89a8f 100%);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .step h3 {
+      color: var(--text-main);
+      margin: 16px 0 12px 0;
+      font-size: 1.1rem;
+    }
+
+    .step p {
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .site-footer {
+      text-align: center;
+      padding: 48px 40px;
+      color: var(--text-sub);
+      font-size: 0.85rem;
+      border-top: 2px solid rgba(157, 139, 126, 0.2);
+      background: linear-gradient(180deg, transparent, rgba(157, 139, 126, 0.05));
+      margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .site-header {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 20px;
+      }
+      main {
+        padding: 24px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .modes-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <div class="brand-logo">🏗️</div>
+    <div>
+      <div class="brand-text-main">BUILD-IT-YOURSELF</div>
+      <div class="brand-text-sub">Material Design & Price Comparison</div>
+    </div>
+  </div>
+
+  <nav class="nav-links">
+    <a href="index.html">首頁</a>
+    <a href="modes.html" class="active">操作模式</a>
+    <a href="solutions.html">解決方案</a>
+    <a href="concept.html">概念設計</a>
+    <a href="proposal.html">企劃書</a>
+  </nav>
+</header>
+
+<main>
+  <h1>雙模式操作流程</h1>
+  <p class="intro">
+    我們為不同使用者提供兩種操作模式，無論你是業主還是DIY愛好者，都能找到最適合自己的使用方式。
+  </p>
+
+  <div class="modes-container">
+    <div class="mode-card">
+      <div class="mode-icon">🧱</div>
+      <h2>專業導入模式</h2>
+      <div class="mode-subtitle">Professional Import Mode</div>
+      <p class="mode-desc">
+        專為與建築事務所合作的業主設計。由事務所匯入模型後，業主可自行選擇與更換建材，
+        系統即時顯示視覺效果與預算變化。
+      </p>
+      <ul class="mode-list">
+        <li>事務所提供 CAD/BIM 模型</li>
+        <li>業主登入即可操作</li>
+        <li>自由替換地板、牆面、配件</li>
+        <li>即時預覽效果與價格</li>
+        <li>與設計師溝通更高效</li>
+        <li>減少重工與修改</li>
+      </ul>
+      <button class="mode-button">了解更多</button>
+    </div>
+
+    <div class="mode-card">
+      <div class="mode-icon">🎨</div>
+      <h2>自主創作模式</h2>
+      <div class="mode-subtitle">Independent Design Mode</div>
+      <p class="mode-desc">
+        適合不想聘請設計師、自己動手設計的DIY愛好者。上傳平面圖或使用平台模板，
+        直覺地搭配建材，享受設計的樂趣。
+      </p>
+      <ul class="mode-list">
+        <li>上傳自己的平面圖</li>
+        <li>或使用內建模板開始</li>
+        <li>拖拉式建材搭配</li>
+        <li>實時 3D 效果預覽</li>
+        <li>自動預算計算</li>
+        <li>隨時調整與優化</li>
+      </ul>
+      <button class="mode-button">開始設計</button>
+    </div>
+  </div>
+
+  <section class="comparison-section">
+    <h2>模式對比表</h2>
+    <div class="comparison-table">
+      <table>
+        <thead>
+          <tr>
+            <th>功能特性</th>
+            <th>專業導入模式</th>
+            <th>自主創作模式</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>模型來源</strong></td>
+            <td>由事務所提供 CAD/BIM</td>
+            <td>自行上傳或使用模板</td>
+          </tr>
+          <tr>
+            <td><strong>操作複雜度</strong></td>
+            <td>簡單 — 只需選擇建材</td>
+            <td>中等 — 需基本空間認知</td>
+          </tr>
+          <tr>
+            <td><strong>建材替換</strong></td>
+            <td><span class="feature-tag">✓ 自由替換</span></td>
+            <td><span class="feature-tag">✓ 自由搭配</span></td>
+          </tr>
+          <tr>
+            <td><strong>3D 預覽</strong></td>
+            <td><span class="feature-tag">✓ 即時更新</span></td>
+            <td><span class="feature-tag">✓ 即時更新</span></td>
+          </tr>
+          <tr>
+            <td><strong>與設計師協作</strong></td>
+            <td><span class="feature-tag">✓ 支援</span></td>
+            <td>不涉及</td>
+          </tr>
+          <tr>
+            <td><strong>預算估算</strong></td>
+            <td><span class="feature-tag">✓ 自動計算</span></td>
+            <td><span class="feature-tag">✓ 自動計算</span></td>
+          </tr>
+          <tr>
+            <td><strong>適合對象</strong></td>
+            <td>聘請設計師的屋主</td>
+            <td>自行設計的DIY愛好者</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="workflow-section">
+    <h2>使用流程</h2>
+    
+    <div style="margin-bottom: 40px;">
+      <h3 style="color: var(--text-main); margin-bottom: 24px;">專業導入模式流程</h3>
+      <div class="workflow-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>事務所匯入</h3>
+          <p>建築事務所登入平台，上傳 CAD 模型或平面圖資料</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>業主登入</h3>
+          <p>業主收到邀請連結，登入即可進入設計模型</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>自由選擇</h3>
+          <p>點選空間區域，從資料庫中選擇喜愛的建材</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3>即時預覽</h3>
+          <p>材質立即更新，同時顯示價格與評價資訊</p>
+        </div>
+        <div class="step">
+          <div class="step-number">5</div>
+          <h3>比較與優化</h3>
+          <p>試驗不同組合，找到最滿意的風格與預算</p>
+        </div>
+        <div class="step">
+          <div class="step-number">6</div>
+          <h3>確認與交付</h3>
+          <p>生成報價單，分享給事務所與建材商</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="color: var(--text-main); margin-bottom: 24px;">自主創作模式流程</h3>
+      <div class="workflow-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>註冊登入</h3>
+          <p>建立個人帳戶，進入自主設計工作區</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>上傳平面圖</h3>
+          <p>上傳自己的平面圖，或選擇平台提供的模板</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>分區配置</h3>
+          <p>定義各區域用途（臥室、浴室、廚房等）</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3>搭配建材</h3>
+          <p>拖拉建材到各區域，實時看到3D效果</p>
+        </div>
+        <div class="step">
+          <div class="step-number">5</div>
+          <h3>優化方案</h3>
+          <p>調整光源、視角，對比不同材質組合</p>
+        </div>
+        <div class="step">
+          <div class="step-number">6</div>
+          <h3>導出報價</h3>
+          <p>生成完整清單，聯繫供應商或分享給朋友</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div>© 2025 自己來設計 · Build-It-Yourself</div>
+  <div style="margin-top: 8px; opacity: 0.6;">選擇適合你的操作方式，輕鬆設計理想空間</div>
+</footer>
+
+</body>
+</html>
